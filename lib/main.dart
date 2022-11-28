@@ -27,7 +27,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  final List<String> entries = <String>['A', 'B', 'C'];
+  final List<int> colorCodes = <int>[600, 500, 100];
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -35,26 +36,18 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: ListView(
+      body: ListView.separated(
         padding: const EdgeInsets.all(8),
-        children: <Widget>[
-          Container(
+        itemCount: entries.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
             height: 50,
-            color: Colors.amber[600],
-            child: const Center(child: Text('Entry A')),
-          ),
-          Container(
-            height: 50,
-            color: Colors.amber[500],
-            child: const Center(child: Text('Entry B')),
-          ),
-          Container(
-            height: 50,
-            color: Colors.amber[100],
-            child: const Center(child: Text('Entry C')),
-          ),
-        ],
-      )
+            color: Colors.amber[colorCodes[index]],
+            child: Center(child: Text('Listview with separated Entry ${entries[index]}')),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
+      ),
     );
   }
 }
