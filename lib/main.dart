@@ -1,52 +1,72 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ListViewApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ListViewApp extends StatefulWidget {
+  const ListViewApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<ListViewApp> createState() => _ListViewAppState();
+}
+
+class _ListViewAppState extends State<ListViewApp> {
+  final List<String> entries = [
+    '第一位',
+    '第二位',
+    '第三位',
+    '第四位',
+    '第五位',
+    '第六位',
+    '第七位',
+    '第八位'
+  ];
+  final List<String> subs = [
+    '0955342342',
+    '0955377742',
+    '0955888842',
+    '0933344742',
+    '0957899842',
+    '0923465742',
+    '0956865642',
+    '0955555542'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Listview',
-      home: const MyHomePage(title: 'Flutter Listview'),
-    );
-  }
-}
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('ListView Example'),
+        ),
+        body: entries.length > 0
+            ? ListView.separated(
+                itemCount: entries.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: Icon(Icons.account_circle_rounded, size: 45),
+                    title: Text('${entries[index]}'),
+                    subtitle: Text('${subs[index]}'),
+                    onTap: () {
+                      final snackBar = SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text('即將撥打給' + '' + '${entries[index]}',
+                            style: TextStyle(fontSize: 24)),
+                        backgroundColor: Colors.blueGrey,
+                      );
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final List<String> entries = <String>['A', 'B', 'C'];
-  final List<int> colorCodes = <int>[600, 500, 100];
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(8),
-        itemCount: entries.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 50,
-            color: Colors.amber[colorCodes[index]],
-            child: Center(child: Text('Listview with separated Entry ${entries[index]}')),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.blueGrey,
+                ),
+              )
+            : Center(
+                child: Text('null'),
+              ),
       ),
     );
   }
