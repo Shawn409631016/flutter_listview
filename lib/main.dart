@@ -38,21 +38,21 @@ class _ListViewAppState extends State<ListViewApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('ListView Example'),
+          title: const Text('ListView Example'),
         ),
         body: entries.length > 0
             ? ListView.separated(
                 itemCount: entries.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: Icon(Icons.account_circle_rounded, size: 45),
-                    title: Text('${entries[index]}'),
-                    subtitle: Text('${subs[index]}'),
+                    leading: const Icon(Icons.account_circle_rounded, size: 45),
+                    title: Text(entries[index]),
+                    subtitle: Text(subs[index]),
                     onTap: () {
                       final snackBar = SnackBar(
-                        duration: Duration(seconds: 1),
-                        content: Text('即將撥打給' + '' + '${entries[index]}',
-                            style: TextStyle(fontSize: 24)),
+                        duration: const Duration(seconds: 1),
+                        content: Text('即將撥打給 ${entries[index]}',
+                            style: const TextStyle(fontSize: 24)),
                         backgroundColor: Colors.blueGrey,
                       );
 
@@ -60,11 +60,11 @@ class _ListViewAppState extends State<ListViewApp> {
                     },
                   );
                 },
-                separatorBuilder: (context, index) => Divider(
+                separatorBuilder: (context, index) => const Divider(
                   color: Colors.blueGrey,
                 ),
               )
-            : Center(
+            : const Center(
                 child: Text('null'),
               ),
       ),
