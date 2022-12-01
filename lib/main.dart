@@ -22,6 +22,7 @@ class _ListViewAppState extends State<ListViewApp> {
     '第七位',
     '第八位'
   ];
+
   final List<String> subs = [
     '0955342342',
     '0955377742',
