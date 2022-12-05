@@ -1,74 +1,50 @@
 import 'package:flutter/material.dart';
+import 'listview_page.dart';
 
 void main() {
-  runApp(ListViewApp());
+  runApp(
+    const MaterialApp(
+      home: MyHomePage(),
+    ),
+  );
 }
 
-class ListViewApp extends StatefulWidget {
-  const ListViewApp({Key? key}) : super(key: key);
-
-  @override
-  State<ListViewApp> createState() => _ListViewAppState();
-}
-
-class _ListViewAppState extends State<ListViewApp> {
-  final List<String> entries = [
-    '第一位',
-    '第二位',
-    '第三位',
-    '第四位',
-    '第五位',
-    '第六位',
-    '第七位',
-    '第八位'
-  ];
-
-  final List<String> subs = [
-    '0955342342',
-    '0955377742',
-    '0955888842',
-    '0933344742',
-    '0957899842',
-    '0923465742',
-    '0956865642',
-    '0955555542'
-  ];
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('ListView Example'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Page Route'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Go ListView Page'),
+          onPressed: () {
+            Navigator.of(context).push(_createRoute());
+          },
         ),
-        body: entries.length > 0
-            ? ListView.separated(
-                itemCount: entries.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: const Icon(Icons.account_circle_rounded, size: 45),
-                    title: Text(entries[index]),
-                    subtitle: Text(subs[index]),
-                    onTap: () {
-                      final snackBar = SnackBar(
-                        duration: const Duration(seconds: 1),
-                        content: Text('即將撥打給 ${entries[index]}',
-                            style: const TextStyle(fontSize: 24)),
-                        backgroundColor: Colors.blueGrey,
-                      );
-
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) => const Divider(
-                  color: Colors.blueGrey,
-                ),
-              )
-            : const Center(
-                child: Text('null'),
-              ),
       ),
     );
   }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    transitionDuration: const Duration(seconds: 1),
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        const ListViewApp(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.bounceInOut;
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
